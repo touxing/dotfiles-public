@@ -1,5 +1,6 @@
 set encoding=utf-8
 inoremap jj <Esc>`^
+autocmd InsertLeave * :silent :!D:\\im-select\\im-select.exe 1033 && D:\\im-select\\im-select.exe 2052
 
 " ordinary neovim
 function! s:manageEditorSize(...)
@@ -35,6 +36,7 @@ set hlsearch " 高亮显示搜索
 set incsearch " 边搜索边高亮
 set ignorecase " 忽悠大小写
 set cursorline " 突出当前显示行
+set foldmethod=indent " 缩进的方式进行折叠
 
 set ts=4 " tab 占4个字符宽度
 set softtabstop=4
@@ -84,7 +86,8 @@ set backspace=2
 
 
 " 插件配置
-let g:plug_url_format='https://git::@hub.fastgit.org/%s.git'
+let g:plug_url_format='https://git::@hub.fastgit.org/%s.git' " 插件加速
+
 call plug#begin('~/.vim/plugged')
 
 " vim 状态栏
@@ -93,16 +96,19 @@ Plug 'vim-airline/vim-airline-themes'
 
 " 左侧导航目录
 Plug 'scrooloose/nerdtree'
-" 侧边栏美化(需要下载字体,暂时不用)
+" 侧边栏美化(需要下载字体)
 Plug 'ryanoasis/vim-devicons'
 
 " 文件搜索插件
-Plug 'ctrlp/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+
 " 方法大纲搜索
 Plug 'tacahiroy/ctrlp-funky'
-
 " 大纲
 Plug 'majutsushi/tagbar'
+
+" 文件内容快速定位插件
+Plug 'easymotion/vim-easymotion'
 
 " editorconfig 插件
 Plug 'editorconfig/editorconfig-vim'
@@ -135,14 +141,20 @@ Plug 'jiangmiao/auto-pairs'
 " 可以使 nerdtree Tab 标签的名称更友好些
 " Plug 'jistr/vim-nerdtree-tabs'
 
-" html 神器
+" html 速写
 Plug 'mattn/emmet-vim'
 
+" 成对编辑插件
+Plug 'tpope/vim-surround'
+
 " 补全插件
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim'
+" typescript插件
+Plug 'leafgarland/typescript-vim'
 
 " markdown 插件
-
+Plug 'plasticboy/vim-markdown'
 
 " rust 插件
 Plug 'rust-lang/rust.vim'
@@ -161,7 +173,11 @@ let g:NERDTreeDirArrowCollapsible = '?'
 " 显示行号
 " let NERDTreeShowLineNumbers=1
 " 设置宽度
-let NERDTreeWinSize=31
+let NERDTreeWinSize=28
+" 显示文件在目录中的位置
+nnoremap <leader>v :NERDTreeFind<cr>
+" 显隐目录栏
+nnoremap <leader>g :NERDTreeToggle<cr>
 " 自动打开 nerdtree
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
@@ -236,6 +252,10 @@ let g:tagbar_type_go = {
     \ 'ctagsargs' : '-sort -silent'
 \ }
 
+"==============================================================================
+" easymotion 配置
+"==============================================================================
+nmap ss <Plug>(easymotion-s2)
 
 "==============================================================================
 " vim-airline 配置
@@ -451,8 +471,8 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 "==============================================================================
 "  gui 配置
 "==============================================================================
-if has('gui_running')
-    set guifont=FantasqueSansMono\ Nerd\ Font\ Mono
+if has("gui_running")
+  set guifont=FantasqueSansMono\ Nerd\ Font\ Mono:h16
 endif
 
 
@@ -461,3 +481,9 @@ endif
 "==============================================================================
 " vnoremap <silent> <C-T> :<C-u>Fyv<CR>
 " nnoremap <silent> <C-T> :<C-u>Fyc<CR>
+
+"==============================================================================
+" emmet 配置
+"==============================================================================
+ let g:user_emmet_install_global = 0
+ autocmd FileType html,css EmmetInstall

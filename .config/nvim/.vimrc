@@ -2,6 +2,8 @@
 set encoding=utf-8
 " 不与vi兼容
 set nocompatible
+" 处理中文输入法与normal模式切换的问题
+autocmd InsertLeave * :silent :!D:\\im-select\\im-select.exe 1033 && D:\\im-select\\im-select.exe 2052
 
 if !has('nvim')
   " 设置 leader 键
@@ -20,7 +22,7 @@ if !has('nvim')
   set expandtab " 不同编辑器tab缩进会存在不一致，将tab转为空格
   set softtabstop=2 " tab转为2个空格
   " gui_vim 才生效
-  " set guifont=FantasqueSansMono\ Nerd\ Font\ Mon:h24
+  " set guifont=FantasqueSansMono\ Nerd\ Font\ Mono:h16
 
   " set relativenumber " 显示当前行号，其他行为相对该行的行号
   set cursorline
@@ -30,27 +32,26 @@ if !has('nvim')
   " 使用jj 进入normal 模式
   inoremap jj <Esc>`^
   " 显示文件在目录中的位置
-  nnoremap <leader>v :NERDTreeFind<cr>
+  nnoremap <leader>tg :NERDTreeFind<cr>
   " 显隐文件目录
   nnoremap <leader>g :NERDTreeToggle<cr>
 
   " ctrlp插件配置 ===
   " let g:ctrlp_working_path_mode = 'ra'
   let g:ctrlp_map =  '<c-p>'
-  let g:ctrlp_cmd = 'CtrlP'
   " 设置搜索的目录是当前打开的目录
   let g:ctrlp_cmd='CtrlP :pwd'
   " let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  " Windows
   " ctrlp ===
-
+  
   " easymotion 配置
   nmap ss <Plug>(easymotion-s2)
-
 
   " Ag 命令配置
   let g:ackprg = 'ag --nogroup --nocolor --column'
 
-  let g:plug_url_format='https://git::@hub.fastgit.org/%s.git'
+
+  let g:plug_url_format='https://git::@hub.fastgit.org/%s.git' " 插件加速
   call plug#begin('~/.vim/plugged')
 
   " 首页插件
@@ -70,8 +71,6 @@ if !has('nvim')
   Plug 'junegunn/fzf.vim'
   " golang插件，代码补全不生效，奇怪
   Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-  " 代码补全插件，还没研究怎么用
-  " Plug 'valloric/youcompleteme'
 
   call plug#end()
 
