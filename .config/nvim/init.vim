@@ -108,7 +108,9 @@ Plug 'tacahiroy/ctrlp-funky'
 Plug 'majutsushi/tagbar'
 
 " 文件内容快速定位插件
-Plug 'easymotion/vim-easymotion'
+Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
+" use vscode easymotion when in vscode mode
+Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), 'as': 'vsc-easymotion')
 
 " editorconfig 插件
 Plug 'editorconfig/editorconfig-vim'
@@ -161,6 +163,10 @@ Plug 'rust-lang/rust.vim'
 
 " 翻译插件 (按需使用)
 " Plug 'JavaHello/vim-fy'
+ 
+" 处理中文输入法切换问题
+Plug 'lilydjwg/fcitx.vim'
+
 
 call plug#end()
 
