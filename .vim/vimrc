@@ -1,0 +1,87 @@
+" 防止中文乱码
+set encoding=utf-8
+" 不与vi兼容
+set nocompatible
+" 处理中文输入法与normal模式切换的问题
+if exists('g:vscode')
+  " 自定义按键映射
+  " 使用jj 进入normal 模式
+  inoremap jj <Esc>`^
+
+endif
+
+if has('nvim')
+  autocmd VimEnter * echo "neovim"
+
+else
+  " autocmd VimEnter * echo "vim"
+
+  if empty(glob('~/vimfiles/autoload/plug.vim'))
+    silent !curl -fLo ~/vimfiles/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
+
+  " 设置 leader 键
+  let mapleader=' '
+  " 语法高亮
+  syntax on
+  set number
+  " 缩进2个空格单位
+  set shiftwidth=2
+  set background=dark
+  " colorscheme hybird
+  set t_Co=256
+  " 自动缩进
+  set autoindent
+  set tabstop=2
+  set expandtab " 不同编辑器tab缩进会存在不一致，将tab转为空格
+  set softtabstop=2 " tab转为2个空格
+  " gui_vim 才生效
+  " set guifont=FantasqueSansMono\ Nerd\ Font\ Mono:h16
+
+  set relativenumber " 显示当前行号，其他行为相对该行的行号
+  set cursorline
+  set hlsearch " 高亮最近的匹配搜索
+
+  " 自定义按键映射
+  " 使用jj 进入normal 模式
+  inoremap jj <Esc>`^
+  " 显示文件在目录中的位置
+  nnoremap <leader>tg :NERDTreeFind<cr>
+  " 显隐文件目录
+  nnoremap <leader>g :NERDTreeToggle<cr>
+
+  " ctrlp插件配置 ===
+  " let g:ctrlp_working_path_mode = 'ra'
+  let g:ctrlp_map =  '<c-p>'
+  " 设置搜索的目录是当前打开的目录
+  let g:ctrlp_cmd='CtrlP :pwd'
+  " let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  " Windows
+  " ctrlp ===
+
+  " easymotion 配置
+  nmap ss <Plug>(easymotion-s2)
+
+  " Ag 命令配置
+  let g:ackprg = 'ag --nogroup --nocolor --column'
+
+  " which-key 配置
+  nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+
+
+  call plug#begin('~/vimfiles/plugged')
+   " 底部状态栏插件
+  Plug 'vim-airline/vim-airline'
+  " 文件快速搜索插件
+  Plug 'ctrlpvim/ctrlp.vim'
+  " 文件内容快速定位插件
+  Plug 'easymotion/vim-easymotion'
+  " 标记成对修改插件
+  Plug 'tpope/vim-surround'
+  " 显示组合键插 lazy load
+  Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+
+  call plug#end()
+
+endif
