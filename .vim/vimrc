@@ -10,11 +10,8 @@ if exists('g:vscode')
 
 endif
 
-if has('nvim')
-  autocmd VimEnter * echo "neovim"
-
-else
-  " autocmd VimEnter * echo "vim"
+" 防止neoviim也生效
+if !has('nvim')
 
   if empty(glob('~/vimfiles/autoload/plug.vim'))
     silent !curl -fLo ~/vimfiles/autoload/plug.vim --create-dirs
