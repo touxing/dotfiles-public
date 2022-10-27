@@ -22,6 +22,24 @@ else
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
   endif
 
+  call plug#begin('~/vimfiles/plugged')
+  " 底部状态栏插件
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+  " 文件快速搜索插件
+  Plug 'ctrlpvim/ctrlp.vim'
+  " 文件内容快速定位插件
+  Plug 'easymotion/vim-easymotion'
+  " 标记成对修改插件
+  Plug 'tpope/vim-surround'
+  " 显示组合键插 lazy load
+  Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+  " 配色主题
+  Plug 'morhetz/gruvbox'
+  Plug 'joshdick/onedark.vim'
+
+  call plug#end()
+
   " 设置 leader 键
   let mapleader=' '
   " 语法高亮
@@ -30,7 +48,7 @@ else
   " 缩进2个空格单位
   set shiftwidth=2
   set background=dark
-  " colorscheme hybird
+  colorscheme onedark
   set t_Co=256
   " 自动缩进
   set autoindent
@@ -69,19 +87,7 @@ else
   " which-key 配置
   nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 
-
-  call plug#begin('~/vimfiles/plugged')
-   " 底部状态栏插件
-  Plug 'vim-airline/vim-airline'
-  " 文件快速搜索插件
-  Plug 'ctrlpvim/ctrlp.vim'
-  " 文件内容快速定位插件
-  Plug 'easymotion/vim-easymotion'
-  " 标记成对修改插件
-  Plug 'tpope/vim-surround'
-  " 显示组合键插 lazy load
-  Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
-
-  call plug#end()
+  " 设置底部状态栏主题
+  let g:airline_theme='simple'
 
 endif
